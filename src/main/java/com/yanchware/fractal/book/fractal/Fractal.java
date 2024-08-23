@@ -17,13 +17,13 @@ public class Fractal extends Component
     public Fractal(
             Component.Id id,
             Version version,
-            Component.Type type,
+            Type type,
             String displayName,
             String description,
-            Component.Parameters parameters,
-            Component.OutputFields outputFields,
+            Parameters parameters,
+            OutputFields outputFields,
             List<Link> links,
-            List<Component.Dependency> dependencies,
+            List<Dependency> dependencies,
             Blueprint blueprint,
             Interface fractalInterface)
     {

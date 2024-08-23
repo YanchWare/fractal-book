@@ -1,7 +1,5 @@
 package com.yanchware.fractal.book.livesystem;
 
-import com.yanchware.fractal.book.Component;
-import com.yanchware.fractal.book.fractal.BlueprintComponent;
 import com.yanchware.fractal.book.fractal.Offer;
 import com.yanchware.fractal.book.fractal.Provider;
 import com.yanchware.fractal.book.values.Version;
@@ -14,15 +12,15 @@ public class LiveSystemComponent extends Offer {
     private Status status;
 
     public LiveSystemComponent(
-            Component.Id id,
+            Id id,
             Version version,
-            BlueprintComponent.Service.Type type,
+            Type type,
             String displayName,
             String description,
-            Component.Parameters parameters,
-            Component.OutputFields outputFields,
+            Parameters parameters,
+            OutputFields outputFields,
             List<Link> links,
-            List<BlueprintComponent.Dependency> dependencies,
+            List<Dependency> dependencies,
             Status status,
             Provider provider)
     {

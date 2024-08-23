@@ -13,13 +13,13 @@ public class Offer extends Component {
     public Offer(
             Id id,
             Version version,
-            BlueprintComponent.Service.Type type,
+            Type type,
             String displayName,
             String description,
-            Component.Parameters parameters,
-            Component.OutputFields outputFields,
+            Parameters parameters,
+            OutputFields outputFields,
             List<Link> links,
-            List<BlueprintComponent.Dependency> dependencies,
+            List<Dependency> dependencies,
             Provider provider)
     {
         super(

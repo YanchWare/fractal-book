@@ -18,22 +18,22 @@ public abstract class BlueprintComponent extends Component
     private final List<Service> services;
 
     public BlueprintComponent(
-            Component.Id id,
+            Id id,
             Version version,
-            Component.Type type,
+            Type type,
             String displayName,
             String description,
-            Component.Parameters parameters,
-            Component.OutputFields outputFields,
-            List<Component.Link> links,
-            List<Component.Dependency> dependencies)
+            Parameters parameters,
+            OutputFields outputFields,
+            List<Link> links,
+            List<Dependency> dependencies)
     {
         super(id,  version, type, displayName, description, parameters, outputFields, links, dependencies);
         this.services = new ArrayList<>();
     }
 
     public record Dependency(
-            Component.Type componentType,
+            Type componentType,
             Id id) implements Component.Dependency { }
 
     @Getter
@@ -63,7 +63,7 @@ public abstract class BlueprintComponent extends Component
                     parameters,
                     outputFields,
                     links,
-                    (List<Dependency>) dependencies,
+                    (List<Component.Dependency>) dependencies,
                     provider);
             offers.add(offer);
             return this;
