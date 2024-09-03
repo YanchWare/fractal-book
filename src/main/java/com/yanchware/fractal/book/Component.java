@@ -4,44 +4,55 @@ import com.yanchware.fractal.book.values.InfrastructureDomain;
 import com.yanchware.fractal.book.values.KebabCaseString;
 import com.yanchware.fractal.book.values.PascalCaseString;
 import com.yanchware.fractal.book.values.Version;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-@AllArgsConstructor
-@Getter
-public abstract class Component
-{
-    protected final Id id;
-    protected final Version version;
-    protected final Type type;
-    protected String displayName;
-    protected String description;
-    protected final Parameters parameters;
-    protected final OutputFields outputFields;
-    protected final List<Link> links;
-    protected final List<? extends Dependency> dependencies;
-
-    public interface Type
+public interface Component {
+    interface Type
     {
         InfrastructureDomain domain();
         PascalCaseString name();
     }
 
-    public interface Dependency
+    interface Dependency
     {
         Type componentType();
     }
 
-    public record Id(KebabCaseString value) { }
+    record Id(KebabCaseString value) { }
 
-    public record Parameters(Map<String, Object> value) { }
+    class Parameters {
+        private Map<String, Object> container;
 
-    public record OutputFields(Map<String, Object> value) { }
+        public Parameters(){
+            container = new HashMap<>();
+        }
 
-    public record Link(Id id, Settings settings) {
+        public Object getRequiredFieldByName(String name) {
+            return getOptionalFieldByName(name)
+                    .orElseThrow(() -> new IllegalArgumentException(STR."No such field in component parameters: \{name}"));
+        }
+
+        public Optional<Object> getOptionalFieldByName(String name) {
+            if(container.containsKey(name)) {
+                return Optional.of(container.get(name));
+            }
+            return Optional.empty();
+        }
+    }
+
+    record OutputFields(Map<String, Object> value) { }
+
+    record Link(Id id, Type type, Settings settings) {
         public record Settings(Map<String, Object> value) { }
     }
+
+    Id getId();
+    Version getVersion();
+    String getDisplayName();
+    String getDescription();
+    Parameters getParameters();
+    OutputFields getOutputFields();
+    Collection<? extends Link> getLinks();
+    Collection<? extends Dependency> getDependencies();
 }

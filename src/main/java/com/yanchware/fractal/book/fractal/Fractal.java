@@ -1,7 +1,7 @@
 package com.yanchware.fractal.book.fractal;
 
 import com.yanchware.fractal.book.BoundedContext;
-import com.yanchware.fractal.book.Component;
+import com.yanchware.fractal.book.ComponentBase;
 import com.yanchware.fractal.book.values.KebabCaseString;
 import com.yanchware.fractal.book.values.Version;
 import lombok.Getter;
@@ -9,13 +9,15 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class Fractal extends Component
+public abstract class Fractal<I extends Interface> extends ComponentBase
 {
     private final Blueprint blueprint;
-    private final Interface fractalInterface;
+    private final I operations;
+    private final Type type;
+    private final Id fractalId;
 
     public Fractal(
-            Component.Id id,
+            Id fractalid,
             Version version,
             Type type,
             String displayName,
@@ -25,18 +27,20 @@ public class Fractal extends Component
             List<Link> links,
             List<Dependency> dependencies,
             Blueprint blueprint,
-            Interface fractalInterface)
+            I operations)
     {
-        super(id,  version, type, displayName, description, parameters, outputFields, links, dependencies);
+        super(fractalid.toComponentId(),  version, displayName, description, parameters, outputFields, links, dependencies);
+        this.type = type;
         this.blueprint = blueprint;
-        this.fractalInterface = fractalInterface;
+        this.operations = operations;
+        this.fractalId = fractalid;
     }
 
     public record Id(BoundedContext.Id boundedContextId, KebabCaseString name, Version version)
     {
-        public Component.Id toComponentId()
+        public ComponentBase.Id toComponentId()
         {
-            return new Component.Id(
+            return new ComponentBase.Id(
                     new KebabCaseString(
                             String.format("%s/%s:%s",
                                     boundedContextId.toString(),

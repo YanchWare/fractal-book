@@ -1,37 +1,34 @@
 package com.yanchware.fractal.book.fractal;
 
-import com.yanchware.fractal.book.Component;
+import com.yanchware.fractal.book.ComponentBase;
+import com.yanchware.fractal.book.livesystem.LiveSystemComponent;
+import com.yanchware.fractal.book.values.InfrastructureDomain;
+import com.yanchware.fractal.book.values.PascalCaseString;
+import com.yanchware.fractal.book.values.ServiceDeliveryModel;
 import com.yanchware.fractal.book.values.Version;
-import lombok.Getter;
 
-import java.util.List;
+import java.util.Collection;
 
-@Getter
-public class Offer extends Component {
-    private final Provider provider;
-
+public abstract class Offer extends ComponentBase {
     public Offer(
             Id id,
             Version version,
-            Type type,
             String displayName,
             String description,
             Parameters parameters,
             OutputFields outputFields,
-            List<Link> links,
-            List<Dependency> dependencies,
-            Provider provider)
+            Collection<Link> links,
+            Collection<Dependency> dependencies)
     {
-        super(
-                id,
-                version,
-                type,
-                displayName,
-                description,
-                parameters,
-                outputFields,
-                links,
-                dependencies);
-        this.provider = provider;
+        super(id, version, displayName, description, parameters, outputFields, links, dependencies);
     }
+
+    public record Type(
+            InfrastructureDomain domain,
+            ServiceDeliveryModel serviceDeliveryModel,
+            PascalCaseString name) implements ComponentBase.Type { }
+
+    public abstract Provider getProvider();
+    public abstract Type getType();
+    public abstract LiveSystemComponent getInstantiatingLiveSystemComponent();
 }
