@@ -61,7 +61,7 @@ public class LiveSystem<F extends Fractal<? extends Interface>> {
         }
     }
 
-    public void instantiate(InstantiationConfiguration instantiationConfiguration) {
+    protected void instantiate(InstantiationConfiguration instantiationConfiguration) {
         this.status = Status.MUTATING;
         var mutationId = UUID.randomUUID();
         var blueprint = getFractal().getBlueprint();

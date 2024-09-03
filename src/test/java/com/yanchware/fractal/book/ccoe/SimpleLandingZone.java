@@ -11,11 +11,11 @@ import lombok.Getter;
 import java.util.*;
 
 @Getter
-public class SimpleLandingZone extends Fractal<SimpleLandingZone.Interface> {
+class SimpleLandingZone extends Fractal<SimpleLandingZone.Interface> {
     public final static BlueprintComponent.Service.Type TYPE = new BlueprintComponent.Service.Type(InfrastructureDomain.CUSTOM_WORKLOAD, ServiceDeliveryModel.PAAS, new PascalCaseString("SimpleLandingZone"));
     public final static Version VERSION = new Version(1,0,0);
 
-    private final Id fractalId;
+    public final Id fractalId;
 
     private final static CertificateAuthorityComponent.Subject subject = new CertificateAuthorityComponent.Subject(
             "commonName",
@@ -33,12 +33,12 @@ public class SimpleLandingZone extends Fractal<SimpleLandingZone.Interface> {
             "title"
     );
 
-    public SimpleLandingZone(BoundedContext boundedContext, SimpleLandingZone.Interface simpleLandingZoneOperations) {
+    protected SimpleLandingZone(BoundedContext.Id boundedContextId, SimpleLandingZone.Interface simpleLandingZoneOperations) {
         var componentId = new ComponentBase.Id(new KebabCaseString("business-workload-ca"));
         var displayName = "Business Workload Private CA";
         var description = "Private CA used to generate certificates for internal workloads";
 
-        var fractalId = new Fractal.Id(boundedContext.getId(), new KebabCaseString("simple-landing-zone"), VERSION);
+        var fractalId = new Fractal.Id(boundedContextId, new KebabCaseString("simple-landing-zone"), VERSION);
         var blueprint = new Blueprint(fractalId, List.of(new BlueprintComponent(
                 fractalId.toComponentId(),
                 VERSION,
@@ -49,7 +49,7 @@ public class SimpleLandingZone extends Fractal<SimpleLandingZone.Interface> {
                 new OutputFields(Collections.emptyMap()),
                 Collections.emptyList(),
                 Collections.emptyList(),
-                List.of(new BlueprintComponent.Service(new BlueprintComponent.Service.Type(CertificateAuthorityComponent.TYPE.domain(), CertificateAuthorityComponent.TYPE.serviceDeliveryModel(), CertificateAuthorityComponent.TYPE.name()), List.of(
+                List.of(new BlueprintComponent.Service(CertificateAuthorityComponent.TYPE.toServiceType(), List.of(
                         AwsSimpleLandingZone.getCertificateAuthorityComponent(componentId, displayName, description, subject),
                         GcpSimpleLandingZone.getCertificateAuthorityComponent(componentId, displayName, description, subject))))
         )));
@@ -58,6 +58,6 @@ public class SimpleLandingZone extends Fractal<SimpleLandingZone.Interface> {
     }
 
     public interface Interface extends com.yanchware.fractal.book.fractal.Interface {
-        void WithCompliantLiveSystems(Collection<LiveSystem<? extends CompliantFractal>> compliantLiveSystems);
+        void WithCompliantLiveSystems(Collection<? extends LiveSystem<? extends Fractal>> compliantLiveSystems);
     }
 }

@@ -26,7 +26,12 @@ public abstract class Offer extends ComponentBase {
     public record Type(
             InfrastructureDomain domain,
             ServiceDeliveryModel serviceDeliveryModel,
-            PascalCaseString name) implements ComponentBase.Type { }
+            PascalCaseString name) implements ComponentBase.Type
+    {
+        public BlueprintComponent.Service.Type toServiceType() {
+            return new BlueprintComponent.Service.Type(domain, serviceDeliveryModel, name);
+        }
+    }
 
     public abstract Provider getProvider();
     public abstract Type getType();

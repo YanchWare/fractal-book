@@ -11,17 +11,20 @@ import com.yanchware.fractal.book.livesystem.components.storage.paas.S3;
 import com.yanchware.fractal.book.values.KebabCaseString;
 
 import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
 
 public class AwsSimpleLandingZone extends LiveSystem<SimpleLandingZone> {
 
-    public AwsSimpleLandingZone(
-            Id id,
-            String displayName,
-            String description,
-            Environment.Id environmentId,
-            SimpleLandingZone fractal) {
-        super(id, displayName, description, environmentId, fractal);
+    private AwsSimpleLandingZone(Environment.Id environmentId) {
+        var fractal = new SimpleLandingZone(BoundedContexts.ReusableTemplates.getBoundedContextId(), compliantLiveSystems -> {
+            // TODO: Add live systems to landing zone
+        });
+        super(new Id(BoundedContexts.ReusableTemplates.getBoundedContextId(), environmentId.name()), "AWS Landing Zone", "AWS Landing Zone", environmentId, fractal);
+    }
+
+    public static AwsSimpleLandingZone getLandingZone(Environment.Id environmentId) {
+        return new AwsSimpleLandingZone(environmentId);
     }
 
     private static S3 getS3BucketForCrl() {
@@ -35,7 +38,7 @@ public class AwsSimpleLandingZone extends LiveSystem<SimpleLandingZone> {
                 LiveSystemComponent.Status.INSTANTIATING);
     }
 
-    public static CertificateAuthorityComponent getCertificateAuthorityComponent(Component.Id id, String displayName, String description, CertificateAuthorityComponent.Subject subject) {
+    protected static CertificateAuthorityComponent getCertificateAuthorityComponent(Component.Id id, String displayName, String description, CertificateAuthorityComponent.Subject subject) {
         return new AwsAcmPrivateCertificateAuthority(
                 id,
                 displayName,
@@ -49,9 +52,17 @@ public class AwsSimpleLandingZone extends LiveSystem<SimpleLandingZone> {
                 new AwsAcmPrivateCertificateAuthority.CrlConfiguration(Optional.of("test.yanchware.com"), S3.CannedACL.PUBLIC_READ, 90));
     }
 
-    @Override
-    public void instantiate(InstantiationConfiguration instantiationConfiguration) {
+    public SimpleLandingZone.Interface getOperations() {
+        return getFractal().getOperations();
+    }
+
+    public void instantiate() {
+        var instantiationConfiguration = new InstantiationConfiguration(Map.of(
+                // TODO do the mapping
+        ));
         super.instantiate(instantiationConfiguration);
-        getMutations().stream().filter(x -> x.id().equals(getCurrentMutationId())).findFirst().orElseThrow(() -> new IllegalStateException("Current muration not found")).components().add(getS3BucketForCrl());
+        getMutations().stream().filter(
+                x -> x.id().equals(getCurrentMutationId())).findFirst().orElseThrow(() -> new IllegalStateException("Current mutation not found"))
+                .components().add(getS3BucketForCrl());
     }
 }
