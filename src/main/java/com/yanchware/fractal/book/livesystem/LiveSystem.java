@@ -69,7 +69,7 @@ public class LiveSystem<F extends Fractal<? extends Interface>> {
         var serviceComponentMap = instantiationConfiguration.serviceMapByComponentId();
         for(var blueprintComponent : blueprint.components()) {
             if (!serviceComponentMap.containsKey(blueprintComponent.getId())) {
-                throw new IllegalArgumentException(STR."Missing configuration for blueprint component: \{blueprintComponent.getId()}");
+                throw new IllegalArgumentException(String.format("Missing configuration for blueprint component: %s", blueprintComponent.getId()));
             }
             var offerSelector = serviceComponentMap.get(blueprintComponent.getId());
             componentList.add(

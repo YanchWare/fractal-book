@@ -30,7 +30,7 @@ public interface Component {
 
         public Object getRequiredFieldByName(String name) {
             return getOptionalFieldByName(name)
-                    .orElseThrow(() -> new IllegalArgumentException(STR."No such field in component parameters: \{name}"));
+                    .orElseThrow(() -> new IllegalArgumentException(String.format("No such field in component parameters: %s", name)));
         }
 
         public Optional<Object> getOptionalFieldByName(String name) {

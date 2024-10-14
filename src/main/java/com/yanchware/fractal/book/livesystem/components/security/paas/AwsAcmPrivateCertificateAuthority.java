@@ -33,7 +33,6 @@ public class AwsAcmPrivateCertificateAuthority extends CertificateAuthorityCompo
             String displayName,
             String description,
             Parameters parameters,
-            Status status,
             Configuration configuration)
     {
         this(id, displayName, description, parameters, configuration, null, null);
@@ -152,7 +151,7 @@ public class AwsAcmPrivateCertificateAuthority extends CertificateAuthorityCompo
             try {
                 return AwsKeyAlgorithm.valueOf(keyAlgorithmStr.toString());
             } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException(STR."Invalid key algorithm: \{keyAlgorithmStr}. Supported algorithms: \{Arrays.toString(AwsKeyAlgorithm.values())}");
+                throw new IllegalArgumentException(String.format("Invalid key algorithm: %s. Supported algorithms: %s", keyAlgorithmStr, Arrays.toString(AwsKeyAlgorithm.values())));
             }
         }
     }
@@ -173,7 +172,7 @@ public class AwsAcmPrivateCertificateAuthority extends CertificateAuthorityCompo
             try {
                 return AwsSigningAlgorithm.valueOf(signingAlgorithmStr.toString());
             } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException(STR."Invalid signing algorithm: \{signingAlgorithmStr}. Supported algorithms: \{Arrays.toString(AwsSigningAlgorithm.values())}");
+                throw new IllegalArgumentException(String.format("Invalid signing algorithm: %s. Supported algorithms: %s", signingAlgorithmStr, Arrays.toString(AwsSigningAlgorithm.values())));
             }
 
         }

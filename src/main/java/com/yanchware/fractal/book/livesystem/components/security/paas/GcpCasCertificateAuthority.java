@@ -16,6 +16,7 @@ public class GcpCasCertificateAuthority extends CertificateAuthorityComponent im
     public final static Offer.Type TYPE = new Offer.Type(InfrastructureDomain.SECURITY, ServiceDeliveryModel.PAAS, new PascalCaseString("CasPool"));
 
     private final Collection<CertificateAuthorityComponent> subordinates;
+    private final Status status;
 
     public GcpCasCertificateAuthority(
             Id id,
@@ -26,6 +27,7 @@ public class GcpCasCertificateAuthority extends CertificateAuthorityComponent im
     {
         super(id, displayName, description, parameters, Collections.emptyList(), Collections.emptyList(), configuration);
         this.subordinates = new ArrayList<>();
+        this.status = Status.INSTANTIATING;
     }
 
 
@@ -40,7 +42,7 @@ public class GcpCasCertificateAuthority extends CertificateAuthorityComponent im
 
     @Override
     public Status getStatus() {
-        return null;
+        return status;
     }
 
     @Override
