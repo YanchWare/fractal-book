@@ -18,10 +18,10 @@ public class SalesApp {
                 Environments.Test.getEnvironmentId());
 
         system.getFractal().getOperations()
-                .WithDatabase(null)
-                .WithWorkload(null);
+                .withDatabase(null)
+                .withFunctionWorkload(null);
 
-        landingZone.getOperations().WithCompliantLiveSystems(List.of(system));
+        landingZone.getOperations().withCompliantLiveSystems(List.of(system));
         landingZone.instantiate();
     }
 }

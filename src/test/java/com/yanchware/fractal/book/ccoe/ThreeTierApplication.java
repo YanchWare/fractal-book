@@ -5,6 +5,8 @@ import com.yanchware.fractal.book.Component;
 import com.yanchware.fractal.book.fractal.Blueprint;
 import com.yanchware.fractal.book.fractal.BlueprintComponent;
 import com.yanchware.fractal.book.fractal.Fractal;
+import com.yanchware.fractal.book.fractal.components.customworkload.faas.CustomFunctionWorkload;
+import com.yanchware.fractal.book.fractal.components.customworkload.paas.CustomPaaSWorkload;
 import com.yanchware.fractal.book.fractal.components.security.paas.CertificateAuthorityComponent;
 import com.yanchware.fractal.book.values.*;
 
@@ -16,8 +18,9 @@ public class ThreeTierApplication extends Fractal<ThreeTierApplication.Interface
     public final static Version VERSION = new Version(1,0,0);
 
     public interface Interface extends com.yanchware.fractal.book.fractal.Interface {
-        Interface WithDatabase(Component component);
-        Interface WithWorkload(Component component);
+        Interface withDatabase(Component component);
+        Interface withFunctionWorkload(CustomFunctionWorkload component);
+        Interface withPaaSWorkload(CustomPaaSWorkload component);
     }
 
     public ThreeTierApplication(BoundedContext.Id boundedContextId, String displayName, String description, Interface threeTierApplicationInterface) {

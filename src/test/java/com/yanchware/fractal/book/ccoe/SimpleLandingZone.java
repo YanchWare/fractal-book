@@ -58,6 +58,6 @@ class SimpleLandingZone extends Fractal<SimpleLandingZone.Interface> {
     }
 
     public interface Interface extends com.yanchware.fractal.book.fractal.Interface {
-        void WithCompliantLiveSystems(Collection<? extends LiveSystem<? extends Fractal>> compliantLiveSystems);
+        void withCompliantLiveSystems(Collection<? extends LiveSystem<? extends Fractal>> compliantLiveSystems);
     }
 }
