@@ -1,3 +1,3 @@
-# fractal-book
+# Platform Engineering with Fractal Architecture
 
-In this repo we have gather all the code used for the Fractal Architecture book
+In this repo we have gathered all the code used for the "Platform Engineering with Fractal Architecture" book.
